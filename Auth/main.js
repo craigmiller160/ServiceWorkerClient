@@ -55,4 +55,27 @@ const showPage = (pageName) => {
     }
 };
 
+if ('serviceWorker' in navigator) {
+    const handleGetToken = (event) => {
+        event.ports[0].postMessage({
+            token
+        });
+    };
+
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log(`ServiceWorker registered`, registration);
+            }, (error) => {
+                console.log('ServiceWorker registration failed', error);
+            });
+    });
+
+    navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data.type === 'GetToken') {
+            handleGetToken(event);
+        }
+    });
+}
+
 showPage(LOGIN_PAGE);
