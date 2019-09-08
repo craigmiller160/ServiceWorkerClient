@@ -7,7 +7,7 @@ const LOGIN_PAGE = 'login';
 const CONTENT_PAGE = 'content';
 
 const instance = axios.create({
-    baseURI: 'http://localhost:3000/api',
+    baseURL: 'http://localhost:3000/api',
     withCredentials: true
 });
 
