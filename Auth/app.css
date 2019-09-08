@@ -57,3 +57,7 @@ section .row .col {
 .btn:hover {
     cursor: pointer;
 }
+
+.hidden {
+    display: none;
+}

@@ -13,13 +13,29 @@
         <section id="login">
             <div class="row">
                 <div class="col">
-
+                    <label for="username">Username</label>
+                    <input id="username" type="text" />
+                    <label for="password">Password</label>
+                    <input id="password" type="password" />
                 </div>
             </div>
         </section>
         <section id="content">
-
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-blue" id="load-text-btn">Load Text</button>
+                </div>
+                <div class="col">
+                    <p id="server-text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <img src="http://localhost:3000/api/image" />
+                </div>
+            </div>
         </section>
     </div>
+    <script src="./main.js"></script>
 </body>
 </html>
