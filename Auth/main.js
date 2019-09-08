@@ -6,6 +6,8 @@ const wrapper = document.querySelector('#wrapper');
 const LOGIN_PAGE = 'login';
 const CONTENT_PAGE = 'content';
 
+let token;
+
 const instance = axios.create({
     baseURL: 'http://localhost:3000/api',
     withCredentials: true
@@ -32,7 +34,7 @@ const configureLoginPage = () => {
             username,
             password
         });
-        console.log(res.data); // TODO delete this
+        token = res.data.token;
     };
 };
 
