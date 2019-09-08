@@ -17,21 +17,23 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('active', (event) => {
+    event.waitUntil(self.clients.claim());
     console.log('Activating ServiceWorker', self.clients);
 });
 
-self.addEventListener('fetch', async (event) => {
-    console.log('Fetching', event.clientId);
-    const res = await self.clients.get(event.clientId);
-    console.log('EventClient', res);
-    const res2 = await self.clients.matchAll({
-        includeUncontrolled: true
-    });
-    console.log('MatchedClients', res2);
+const getResponse = async (event) => {
+
+    const request = event.request;
+    const client = await self.clients.get(event.clientId);
+    console.log('Client', client);
+
+    if (!client) {
+        return null;
+    }
 
     const channel = new MessageChannel();
 
-    res.postMessage('Hello Message', [channel.port1]);
+    client.postMessage('Hello Message', [channel.port1]);
     let authHeader;
     try {
         const response = await readChannelPort(channel.port2);
@@ -41,12 +43,29 @@ self.addEventListener('fetch', async (event) => {
         console.log('Error with response', ex);
     }
 
-    console.log('Request', event.request);
-    return fetch({
-        ...event.request,
+    // return fetch(new Request({
+    //     url: 'https://www.google.com',
+    //     method: 'get'
+    // }));
+    // return fetch(request);
+    return fetch(new Request(request.url, {
+        method: request.method,
         headers: {
-            ...event.request.headers,
+            ...request.headers,
             authorization: authHeader
-        }
-    });
+        },
+        cache: request.cache,
+        mode: 'cors', // we cannot use mode 'navigate', but can fall back to cors, which is good enough
+        credentials: request.credentials,
+        redirect: 'manual', // browser will handle redirect on its own
+    }));
+};
+
+self.addEventListener('fetch', (event) => {
+    console.log('Fetching', event.clientId);
+    console.log('Request', event.request.url);
+
+    if (event.request.url.includes('/api')) {
+        event.respondWith(getResponse(event));
+    }
 });
