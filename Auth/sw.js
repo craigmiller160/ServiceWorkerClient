@@ -33,6 +33,8 @@ const addAuthHeader = async (event) => {
     const token = await getToken(client);
     const authHeader = `Bearer ${token}`;
 
+    const body = await request.json();
+
     return fetch(new Request(request.url, {
         method: request.method,
         headers: {
@@ -43,6 +45,7 @@ const addAuthHeader = async (event) => {
         mode: 'cors', // we cannot use mode 'navigate', but can fall back to cors, which is good enough
         credentials: request.credentials,
         redirect: 'manual', // browser will handle redirect on its own
+        body: JSON.stringify(body)
     }));
 };
 
