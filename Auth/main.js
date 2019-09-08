@@ -1,28 +1,35 @@
 
-const loadTxtBtn = document.querySelector('#load-text-btn');
-const serverTxt = document.querySelector('#server-text');
 const loginPage = document.querySelector('#login');
 const contentPage = document.querySelector('#content');
+const wrapper = document.querySelector('#wrapper');
+
+const LOGIN_PAGE = 'login';
+const CONTENT_PAGE = 'content';
 
 const instance = axios.create({
     baseURI: 'http://localhost:3000/api',
     withCredentials: true
 });
 
-const toggleVisiblePage = () => {
-    if (loginPage.classList.contains('hidden')) {
-        loginPage.classList.remove('hidden');
-        contentPage.classList.add('hidden');
-        return;
+const showPage = (pageName) => {
+    let firstChild = wrapper.firstChild;
+    while (firstChild) {
+        wrapper.removeChild(firstChild);
+        firstChild = wrapper.firstChild;
     }
 
-    if (contentPage.classList.contains('hidden')) {
-        contentPage.classList.remove('hidden');
-        loginPage.classList.add('hidden');
+    if (LOGIN_PAGE === pageName) {
+        wrapper.append(loginPage.content.cloneNode(true));
+    }
+    else {
+        wrapper.append(contentPage.content.cloneNode(true));
+        const loadTxtBtn = document.querySelector('#load-text-btn');
+        const serverTxt = document.querySelector('#server-text');
+        loadTxtBtn.onclick = async () => {
+            const res = await instance.get('/hello');
+            serverTxt.textContent = res.data;
+        };
     }
 };
 
-loadTxtBtn.onclick = async () => {
-    const res = await instance.get('/hello');
-    serverTxt.textContent = res.data;
-};
+showPage(LOGIN_PAGE);

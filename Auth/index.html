@@ -11,35 +11,41 @@
         <header>
             <h1 class="title">Service Worker Authentication</h1>
         </header>
-        <section id="login">
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input id="username" type="text" />
+        <div id="wrapper" />
+        <template id="login">
+            <section>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input id="username" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input id="password" type="password" />
+                        </div>
+                        <button type="button" class="btn btn-blue">Login</button>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" />
+                </div>
+            </section>
+        </template>
+        <template id="content">
+            <section>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-blue" id="load-text-btn">Load Text</button>
+                    </div>
+                    <div class="col">
+                        <p id="server-text" />
                     </div>
                 </div>
-            </div>
-        </section>
-        <section id="content" class="hidden">
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-blue" id="load-text-btn">Load Text</button>
+                <div class="row">
+                    <div class="col">
+                        <img src="http://localhost:3000/api/image" />
+                    </div>
                 </div>
-                <div class="col">
-                    <p id="server-text" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <img src="http://localhost:3000/api/image" />
-                </div>
-            </div>
-        </section>
+            </section>
+        </template>
     </div>
     <script src="./main.js"></script>
 </body>
