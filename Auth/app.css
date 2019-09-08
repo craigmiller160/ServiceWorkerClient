@@ -61,3 +61,19 @@ section .row .col {
 .hidden {
     display: none;
 }
+
+div.form-group {
+    margin: 3px;
+}
+
+div.form-group > label {
+    font-weight: bold;
+    display: block;
+}
+
+div.form-group > input {
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    display: block;
+    padding: 5px;
+}
